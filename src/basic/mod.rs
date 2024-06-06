@@ -17,7 +17,7 @@ macro_rules! create_pyerr {
     };
 }
 
-#[pyclass(subclass, module = "cachebox._cachebox")]
+#[pyclass(subclass, module = "apex._cachebox")]
 pub struct BaseCacheImpl;
 
 #[pymethods]

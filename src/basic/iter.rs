@@ -52,7 +52,7 @@ impl<I> Drop for SafeRawIter<I> {
 unsafe impl<I> Send for SafeRawIter<I> {}
 unsafe impl<I> Sync for SafeRawIter<I> {}
 
-#[pyclass(module = "cachebox._cachebox")]
+#[pyclass(module = "apex._cachebox")]
 pub struct tuple_ptr_iterator {
     iter: SafeRawIter<(HashablePyObject, PyObject)>,
 }
@@ -79,7 +79,7 @@ impl tuple_ptr_iterator {
     }
 }
 
-#[pyclass(module = "cachebox._cachebox")]
+#[pyclass(module = "apex._cachebox")]
 pub struct object_ptr_iterator {
     iter: SafeRawIter<(HashablePyObject, PyObject)>,
     index: u8,

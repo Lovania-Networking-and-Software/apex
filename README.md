@@ -32,7 +32,7 @@ You can easily and powerfully perform caching operations in Python as fast as po
 **Installing**: \
 Install it from PyPi:
 ```sh
-pip3 install -U cachebox
+pip3 install -U apex
 ```
 
 ## Page Contents
@@ -75,41 +75,47 @@ There are some situations that you may need caching to imprve your application s
 > See [API Reference](APIReference.md) for more examples and references
 
 **decorators** example:
-```python
-import cachebox
 
-@cachebox.cached(cachebox.FIFOCache(maxsize=128))
+```python
+import apex
+
+
+@apex.cached(apex.FIFOCache(maxsize=128))
 def factorial(n):
-    return n * factorial(n-1) if n else 1
+    return n * factorial(n - 1) if n else 1
+
 
 # Like functools.lru_cache, If maxsize is set to 0, the cache can grow without bound and limit.
-@cachebox.cached(cachebox.LRUCache(maxsize=0))
+@apex.cached(apex.LRUCache(maxsize=0))
 def count_vowels(sentence):
     return sum(sentence.count(vowel) for vowel in 'AEIOUaeiou')
 
+
 # Async are also supported
-@cachebox.cached(cachebox.TTLCache(maxsize=20, ttl=5))
+@apex.cached(apex.TTLCache(maxsize=20, ttl=5))
 async def get_coin_price(coin):
     return await client.get_coin_price(coin)
 
+
 class Application:
     # Use cachedmethod for methods
-    @cachebox.cachedmethod(cachebox.LFUCache(maxsize=20))
+    @apex.cachedmethod(apex.LFUCache(maxsize=20))
     def send(self, request):
         self._send_request(request)
 ```
 
 **Implementations** example:
+
 ```python
-import cachebox
+import apex
 import time
 
-cache = cachebox.TTLCache(maxsize=5, ttl=3)
+cache = apex.TTLCache(maxsize=5, ttl=3)
 cache.insert("key", "value")
-print(cache["key"]) # Output: value
+print(cache["key"])  # Output: value
 
 time.sleep(3)
-print(cache.get("key")) # Output: None
+print(cache.get("key"))  # Output: None
 ```
 
 ## Incompatible changes
@@ -122,8 +128,9 @@ These are changes that are not compatible with the previous version:
 The change applied is that when you pass `0` as maxsize, the value of `sys.maxsize` is automatically used.
 
 ```python
-import cachebox, sys
-c = cachebox.Cache(0)
+import apex, sys
+
+c = apex.Cache(0)
 
 # In previous version:
 assert c.maxsize == 0
@@ -137,9 +144,9 @@ The change applied is that, in previous version you may make changes in cache af
 from it and that did not cause an error, but now you cannot make changes in cache while using the iterator.
 
 ```python
-import cachebox
+import apex
 
-c = cachebox.Cache(0, {i:i for i in range(100)})
+c = apex.Cache(0, {i: i for i in range(100)})
 
 for (key, value) in c.items():
     # This will raise RuntimeError, don't make changes
@@ -150,10 +157,10 @@ for (key, value) in c.items():
 In previous version, we couldn't use type-hints as possible as dictionary; now we can:
 
 ```python
-import cachebox
+import apex
 
 # In previous version this will raises an exception; but now is OK.
-c: cachebox.Cache[int, str] = cachebox.Cache(0)
+c: apex.Cache[int, str] = apex.Cache(0)
 ```
 
 #### Cache iterators are not ordered!
@@ -161,9 +168,9 @@ In previous versions, some caches such as `FIFOCache` can return ordered iterato
 only can return unordered iterators.
 
 ```python
-import cachebox
+import apex
 
-c = cachebox.FIFOCache(20)
+c = apex.FIFOCache(20)
 for i in range(10):
     c.insert(i, i)
 
@@ -177,15 +184,17 @@ for key in c:
 
 #### \_\_repr\_\_ changed to \_\_str\_\_
 We changed the `__repr__` method to `__str__`:
+
 ```python
-import cachebox
-c = cachebox.Cache(0)
+import apex
+
+c = apex.Cache(0)
 
 print(c)
 # Output: Cache(0 / 9223372036854775807, capacity=0)
 
 print(repr(c))
-# Output: <cachebox._cachebox.Cache object at 0x7f96938f06a0>
+# Output: <apex._cachebox.Cache object at 0x7f96938f06a0>
 ```
 
 ## FAQ

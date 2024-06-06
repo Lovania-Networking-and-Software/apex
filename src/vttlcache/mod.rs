@@ -7,7 +7,7 @@ use crate::create_pyerr;
 use parking_lot::RwLock;
 use pyo3::prelude::*;
 
-#[pyclass(mapping, extends=crate::basic::BaseCacheImpl, subclass, module="cachebox._cachebox")]
+#[pyclass(mapping, extends=crate::basic::BaseCacheImpl, subclass, module="apex._cachebox")]
 pub struct VTTLCache {
     table: RwLock<RawVTTLCache>,
 }
@@ -434,7 +434,7 @@ impl VTTLCache {
 }
 
 #[allow(non_camel_case_types)]
-#[pyclass(module = "cachebox._cachebox")]
+#[pyclass(module = "apex._cachebox")]
 pub struct vttl_tuple_ptr_iterator {
     iter: SafeRawIter<(VTTLKey, PyObject)>,
 }
@@ -466,7 +466,7 @@ impl vttl_tuple_ptr_iterator {
 }
 
 #[allow(non_camel_case_types)]
-#[pyclass(module = "cachebox._cachebox")]
+#[pyclass(module = "apex._cachebox")]
 pub struct vttl_object_ptr_iterator {
     iter: SafeRawIter<(VTTLKey, PyObject)>,
     index: u8,

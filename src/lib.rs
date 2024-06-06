@@ -10,7 +10,7 @@ mod ttlcache;
 mod vttlcache;
 
 #[pymodule]
-#[pyo3(name = "_cachebox")]
+#[pyo3(name = "_apex")]
 fn _cachebox(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add("__version__", env!("CARGO_PKG_VERSION"))?;
     m.add("__author__", "awolverp")?;

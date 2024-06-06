@@ -7,7 +7,7 @@ use crate::{create_pyerr, make_eq_func, make_hasher_func};
 use parking_lot::RwLock;
 use pyo3::prelude::*;
 
-#[pyclass(mapping, extends=crate::basic::BaseCacheImpl, subclass, module="cachebox._cachebox")]
+#[pyclass(mapping, extends=crate::basic::BaseCacheImpl, subclass, module="apex._cachebox")]
 pub struct TTLCache {
     table: RwLock<RawTTLCache>,
 }
@@ -428,7 +428,7 @@ impl TTLCache {
 }
 
 #[allow(non_camel_case_types)]
-#[pyclass(module = "cachebox._cachebox")]
+#[pyclass(module = "apex._cachebox")]
 pub struct ttl_tuple_ptr_iterator {
     iter: SafeRawIter<(HashablePyObject, TTLValue)>,
 }
@@ -460,7 +460,7 @@ impl ttl_tuple_ptr_iterator {
 }
 
 #[allow(non_camel_case_types)]
-#[pyclass(module = "cachebox._cachebox")]
+#[pyclass(module = "apex._cachebox")]
 pub struct ttl_object_ptr_iterator {
     iter: SafeRawIter<(HashablePyObject, TTLValue)>,
     index: u8,

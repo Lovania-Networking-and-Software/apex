@@ -4,7 +4,7 @@ use crate::{create_pyerr, make_eq_func, make_hasher_func};
 use parking_lot::RwLock;
 use pyo3::prelude::*;
 
-#[pyclass(mapping, extends=crate::basic::BaseCacheImpl, subclass, module="cachebox._cachebox")]
+#[pyclass(mapping, extends=crate::basic::BaseCacheImpl, subclass, module="apex._cachebox")]
 pub struct RRCache {
     table: RwLock<RawCache>,
 }

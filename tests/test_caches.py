@@ -1,11 +1,11 @@
-import cachebox
+import apex
 import unittest
 import typing
 import time
 
 
 class CacheTestSuiteMixin:
-    cache: typing.Type[cachebox.BaseCacheImpl]
+    cache: typing.Type[apex.BaseCacheImpl]
     fixed_size = False
     has_popitem = True
     kwargs = dict()
@@ -248,12 +248,12 @@ class CacheTestSuiteMixin:
         self.assertEqual(obj.popitem(), ("age", 19))
 
     def test_subclass(self):
-        self.assertIsInstance(self.cache(0, **self.kwargs), cachebox.BaseCacheImpl)
+        self.assertIsInstance(self.cache(0, **self.kwargs), apex.BaseCacheImpl)
 
         class CustomClass(self.cache):
             pass
 
-        self.assertIsInstance(CustomClass(0, **self.kwargs), cachebox.BaseCacheImpl)
+        self.assertIsInstance(CustomClass(0, **self.kwargs), apex.BaseCacheImpl)
 
     def test_limit(self):
         obj = self.cache(maxsize=10, **self.kwargs)
@@ -273,17 +273,17 @@ class CacheTestSuiteMixin:
 class TestBaseCacheImpl(unittest.TestCase):
     def test_new(self):
         with self.assertRaises(NotImplementedError):
-            cachebox.BaseCacheImpl(0)
+            apex.BaseCacheImpl(0)
 
 
 class TestCache(unittest.TestCase, CacheTestSuiteMixin):
-    cache = cachebox.Cache
+    cache = apex.Cache
     fixed_size = True
     has_popitem = False
 
 
 class TestFIFOCache(unittest.TestCase, CacheTestSuiteMixin):
-    cache = cachebox.FIFOCache
+    cache = apex.FIFOCache
 
     def test_policy(self):
         obj = self.cache(2)
@@ -301,7 +301,7 @@ class TestFIFOCache(unittest.TestCase, CacheTestSuiteMixin):
 
 
 class TestLFUCache(unittest.TestCase, CacheTestSuiteMixin):
-    cache = cachebox.LFUCache
+    cache = apex.LFUCache
 
     def test_policy(self):
         obj = self.cache(5)
@@ -351,7 +351,7 @@ class TestLFUCache(unittest.TestCase, CacheTestSuiteMixin):
 
 
 class TestLRUCache(unittest.TestCase, CacheTestSuiteMixin):
-    cache = cachebox.LRUCache
+    cache = apex.LRUCache
 
     def test_policy(self):
         obj = self.cache(3)
@@ -375,7 +375,7 @@ class TestLRUCache(unittest.TestCase, CacheTestSuiteMixin):
 
 
 class TestRRCache(unittest.TestCase, CacheTestSuiteMixin):
-    cache = cachebox.RRCache
+    cache = apex.RRCache
 
     def test_policy(self):
         obj = self.cache(2)
@@ -387,7 +387,7 @@ class TestRRCache(unittest.TestCase, CacheTestSuiteMixin):
 
 
 class TestVTTLCache(unittest.TestCase, CacheTestSuiteMixin):
-    cache = cachebox.VTTLCache
+    cache = apex.VTTLCache
 
     def test_policy(self):
         obj = self.cache(2)
@@ -453,7 +453,7 @@ class TestVTTLCache(unittest.TestCase, CacheTestSuiteMixin):
 
 
 class TestTTLCache(unittest.TestCase, CacheTestSuiteMixin):
-    cache = cachebox.TTLCache
+    cache = apex.TTLCache
     kwargs = {"ttl": 120}
 
     def test_policy(self):
